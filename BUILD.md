@@ -32,3 +32,9 @@ conda install -c conda-forge gcc_linux-64=12 gxx_linux-64=12 -y
 export CC=$CONDA_PREFIX/bin/x86_64-conda-linux-gnu-gcc
 export CXX=$CONDA_PREFIX/bin/x86_64-conda-linux-gnu-g++
 ```
+
+## 3. Prepare training images
+### A. Use ffmpeg to turn a video into sequences of images
+```bash
+ffmpeg -i file.MOV -qscale:v 1 -qmin 1 -vf fps=2 images/%04d.jpg
+```
