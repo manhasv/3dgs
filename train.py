@@ -63,7 +63,7 @@ for image_id, image in reconstruction.images.items():
     if img is None:
         continue
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) / 255.0
-    img_tensor = torch.tensor(img, dtype=torch.float32, device=device)
+    img_tensor = torch.from_numpy(img).float()
     
     # View Matrix (World-to-Camera)
     # Handle pycolmap version differences for extrinsics
@@ -149,7 +149,7 @@ for step in range(1, ITERATIONS + 1):
     
     # The output is [Batch, Height, Width, Channels]. Extract the first (and only) image.
     pred_img = renders[0]
-    gt_img = cam["img"]
+    gt_img = cam["img"].to(device)
     
     # Compute L1 Loss
     loss = F.l1_loss(pred_img, gt_img)
