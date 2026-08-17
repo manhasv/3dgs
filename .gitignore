@@ -3,3 +3,4 @@
 /sparse/*
 /input/*
 database.db
+/__pycache__/*
