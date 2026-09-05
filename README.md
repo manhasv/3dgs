@@ -2,6 +2,17 @@
 
 This project is a small personal experiment on 3DGS using Colmap output and trained with gsplat library. Note that this is a surface-level project aimed to explore the possibility of using 3DGS for showcase purposes.
 
+### Demo/ Experiment
+
+I recorded a one-minute video of my Pokémon collection at `/input/file.MOV` captured from Iphone 14 Plus. I then extracted frames from the video at 3 FPS using `ffmpeg` and used the resulting images as input to the training script.
+
+The resulting Gaussian splat is available on [SuperSplat](https://superspl.at/scene/36e49b33).
+
+Here is a screenshot of the rendered splat:
+
+![Rendered Gaussian Splat](showcase/demo.png)
+
+
 ### 1. Prerequisites
 
 - **Package Manager**: Conda / Miniconda
@@ -35,7 +46,7 @@ export CXX=$CONDA_PREFIX/bin/x86_64-conda-linux-gnu-g++
 ### Recommended: Use ffmpeg to turn a video into sequences of images
 This create images from input video at 3fps
 ```bash
-ffmpeg -i file.MOV -qscale:v 1 -qmin 1 -vf fps=2 images/%04d.jpg
+ffmpeg -i file.MOV -qscale:v 1 -qmin 1 -vf fps=3 images/%04d.jpg
 ```
 
 ## 4. Run
