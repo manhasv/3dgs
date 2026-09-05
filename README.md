@@ -1,6 +1,6 @@
 # 3D Gaussian Splatting
 
-This project is a small experiment on 3DGS using Colmap output and trained with gsplat library.
+This project is a small personal experiment on 3DGS using Colmap output and trained with gsplat library. Note that this is a surface-level project aimed to explore the possibility of using 3DGS for showcase purposes.
 
 ### 1. Prerequisites
 
@@ -33,6 +33,7 @@ export CXX=$CONDA_PREFIX/bin/x86_64-conda-linux-gnu-g++
 
 ## 3. Prepare training images
 ### Recommended: Use ffmpeg to turn a video into sequences of images
+This create images from input video at 3fps
 ```bash
 ffmpeg -i file.MOV -qscale:v 1 -qmin 1 -vf fps=2 images/%04d.jpg
 ```

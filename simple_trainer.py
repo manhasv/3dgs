@@ -6,9 +6,11 @@ import pycolmap
 from pathlib import Path
 import torch.nn.functional as F
 from plyfile import PlyData, PlyElement
-
-# gsplat 1.0+ API
 from gsplat import rasterization
+
+"""
+This is a simple 3DGS optimizer for prototype purposes. This is very unoptimized for heavy work.
+"""
 
 PROJECT = Path(__file__).parent.resolve()
 IMAGE_DIR = PROJECT / "images"
@@ -117,7 +119,7 @@ optimizer = torch.optim.Adam([
     {'params': [colors], 'lr': 2.5e-3},
 ])
 
-ITERATIONS = 2000
+ITERATIONS = 4000
 
 for step in range(1, ITERATIONS + 1):
     # Pick a random camera
@@ -134,7 +136,7 @@ for step in range(1, ITERATIONS + 1):
     act_opacities = torch.sigmoid(opacities)
     act_colors = torch.sigmoid(colors)
     
-    # Forward Pass: Render the image
+    # Forward Pass, Render the image
     renders, _, _ = rasterization(
         means=means,
         quats=norm_quats,
@@ -179,7 +181,7 @@ final_means = means.detach().cpu().numpy()
 final_scales = scales.detach().cpu().numpy()
 final_opacities = opacities.detach().cpu().numpy()
 
-# Normalize quaternions one last time before saving
+# Normalize quaternions
 final_quats = F.normalize(quats, dim=-1).detach().cpu().numpy()
 
 # 2. Convert Sigmoid RGB back to Spherical Harmonics (Degree 0)
@@ -228,7 +230,7 @@ elements['rot_1'] = final_quats[:, 1]
 elements['rot_2'] = final_quats[:, 2]
 elements['rot_3'] = final_quats[:, 3]
 
-# 5. Save the file
+# 5. Save
 ply_path = OUTPUT_DIR / "splat_model.ply"
 el = PlyElement.describe(elements, 'vertex')
 PlyData([el]).write(str(ply_path))
